@@ -81,3 +81,125 @@ func TestLatest(t *testing.T) {
 		t.Logf("%#v\n", topic)
 	}
 }
+
+func TestTopicByID(t *testing.T) {
+	topic, err := v2ex.TopicByID(123)
+	if err != nil {
+		t.Errorf("TestTopicByID failed: %s\n", err)
+		return
+	}
+	topic_target := v2ex.Topic{
+		ID:               123,
+		Title:            "NoSQL 区",
+		URL:              "http://www.v2ex.com/t/123",
+		Content:          "欢迎在这里讨论所有的 NoSQL 技术。",
+		Content_rendered: "欢迎在这里讨论所有的 NoSQL 技术。",
+		Replies:          3,
+		Member: v2ex.Member{
+			ID:       1,
+			Username: "Livid",
+			Tagline:  "Beautifully Advance",
+			Avatar: v2ex.Avatar{
+				Avatar_mini:   "//cdn.v2ex.com/avatar/c4ca/4238/1_mini.png?m=1401650222",
+				Avatar_normal: "//cdn.v2ex.com/avatar/c4ca/4238/1_normal.png?m=1401650222",
+				Avatar_large:  "//cdn.v2ex.com/avatar/c4ca/4238/1_large.png?m=1401650222",
+			},
+		},
+		Node: v2ex.Node{
+			ID:            51,
+			Name:          "nosql",
+			Title:         "NoSQL",
+			URL:           "http://www.v2ex.com/go/nosql",
+			Topics:        13,
+			Avatar_mini:   "/static/img/node_mini.png",
+			Avatar_normal: "/static/img/node_normal.png",
+			Avatar_large:  "/static/img/node_large.png",
+		},
+		Created:       1272356978,
+		Last_modified: 1335108284,
+		Last_touched:  1314771414,
+	}
+	if topic_target != topic {
+		t.Error("TestTopicByID failed: unmatch\n")
+		return
+	}
+}
+
+func TestRepliesByTopicID(t *testing.T) {
+	replies, err := v2ex.RepliesByTopicID(123)
+	if err != nil {
+		t.Error("TestRepliesByTopicID failed: %s\n", err)
+		return
+	}
+
+	replies_target := v2ex.Replies{
+		{
+			ID:               587,
+			Thanks:           0,
+			Content:          "我觉得应该加上板块说明/简介功能",
+			Content_rendered: "我觉得应该加上板块说明/简介功能",
+			Member: v2ex.Member{
+				ID:       7,
+				Username: "Sai",
+				Tagline:  "いのち短し 恋せよ乙女",
+				Avatar: v2ex.Avatar{
+					Avatar_mini:   "//cdn.v2ex.com/avatar/8f14/e45f/7_mini.png?m=1334913596",
+					Avatar_normal: "//cdn.v2ex.com/avatar/8f14/e45f/7_normal.png?m=1334913596",
+					Avatar_large:  "//cdn.v2ex.com/avatar/8f14/e45f/7_large.png?m=1334913596",
+				},
+			},
+			Created:       1272368938,
+			Last_modified: 1335092184,
+		},
+
+		{
+			ID:               590,
+			Thanks:           0,
+			Content:          "嗯。\u000D\u000A\u000D\u000Anode.header 和 node.footer 目前在后台里有，只是前台还没有加上。",
+			Content_rendered: "嗯。\u003Cbr /\u003E\u003Cbr /\u003Enode.header 和 node.footer 目前在后台里有，只是前台还没有加上。",
+			Member: v2ex.Member{
+				ID:       1,
+				Username: "Livid",
+				Tagline:  "Beautifully Advance",
+				Avatar: v2ex.Avatar{
+					Avatar_mini:   "//cdn.v2ex.com/avatar/c4ca/4238/1_mini.png?m=1401650222",
+					Avatar_normal: "//cdn.v2ex.com/avatar/c4ca/4238/1_normal.png?m=1401650222",
+					Avatar_large:  "//cdn.v2ex.com/avatar/c4ca/4238/1_large.png?m=1401650222",
+				},
+			},
+			Created:       1272369274,
+			Last_modified: 1335092197,
+		},
+
+		{
+			ID:               137613,
+			Thanks:           0,
+			Content:          "开始研究下mangoDB",
+			Content_rendered: "开始研究下mangoDB",
+			Member: v2ex.Member{
+				ID:       10911,
+				Username: "vven",
+				Tagline:  "举头望明月，低头敲代码。",
+				Avatar: v2ex.Avatar{
+					Avatar_mini:   "//cdn.v2ex.com/avatar/6bd2/ab1d/10911_mini.png?m=1335099920",
+					Avatar_normal: "//cdn.v2ex.com/avatar/6bd2/ab1d/10911_normal.png?m=1335099920",
+					Avatar_large:  "//cdn.v2ex.com/avatar/6bd2/ab1d/10911_large.png?m=1335099920",
+				},
+			},
+			Created:       1314685014,
+			Last_modified: 1335092195,
+		},
+	}
+
+	if len(replies) != len(replies_target) {
+		t.Error("TestRepliesByTopicID failed: len is not equal")
+		return
+	}
+
+	for i := 0; i < len(replies); i++ {
+		if replies[i] != replies_target[i] {
+			t.Error("TestRepliesByTopicID failed: unmatch\n")
+			return
+		}
+	}
+}

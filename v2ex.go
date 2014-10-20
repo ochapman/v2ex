@@ -118,3 +118,30 @@ func Latest() (topics Topics, err error) {
 	err = get(url, &topics)
 	return
 }
+
+func TopicByID(id uint32) (topic Topic, err error) {
+	var topics Topics
+	url := "http://www.v2ex.com/api/topics/show.json?id=" + strconv.Itoa(int(id))
+	err = get(url, &topics)
+	topic = topics[0]
+	return
+}
+
+type Reply struct {
+	ID               uint32 `json:id` //Reply ID
+	Thanks           uint32 `json:thanks`
+	Content          string `json:content`
+	Content_rendered string `json:content_rendered`
+	Member           Member `json:member`
+	Created          int64  `json:created`
+	Last_modified    int64  `json:last_modified`
+}
+
+type Replies []Reply
+
+// id: topic ID
+func RepliesByTopicID(id uint32) (replies Replies, err error) {
+	url := "http://www.v2ex.com/api/replies/show.json?topic_id=" + strconv.Itoa(int(id))
+	err = get(url, &replies)
+	return
+}
