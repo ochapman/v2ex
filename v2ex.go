@@ -149,6 +149,13 @@ func Latest() (topics Topics, err error) {
 	return
 }
 
+//相当于首页右侧的 10 大每天的内容
+func Hot() (topics Topics, err error) {
+	url := "https://www.v2ex.com/api/topics/hot.json"
+	err = get(url, &topics)
+	return
+}
+
 func TopicByID(id uint32) (topic Topic, err error) {
 	var topics Topics
 	url := "http://www.v2ex.com/api/topics/show.json?id=" + strconv.Itoa(int(id))

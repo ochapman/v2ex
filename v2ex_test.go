@@ -82,6 +82,17 @@ func TestLatest(t *testing.T) {
 	}
 }
 
+func TestHot(t *testing.T) {
+	topics, err := v2ex.Hot()
+	if err != nil {
+		t.Errorf("TestHot failed: %s\n", err)
+		return
+	}
+	for _, topic := range topics {
+		t.Logf("%#v\n", topic)
+	}
+}
+
 func TestTopicByID(t *testing.T) {
 	topic, err := v2ex.TopicByID(123)
 	if err != nil {
