@@ -203,3 +203,71 @@ func TestRepliesByTopicID(t *testing.T) {
 		}
 	}
 }
+
+func TestMemberByID(t *testing.T) {
+	member, err := v2ex.MemberByID(123)
+	if err != nil {
+		t.Errorf("TestMemberByID failed: %s\n", err)
+		return
+	}
+
+	member_target := v2ex.Member{
+		Status:   "found",
+		ID:       123,
+		URL:      "http://www.v2ex.com/member/romoo",
+		Username: "romoo",
+		Website:  "twitter.com/romoo",
+		Twitter:  "romoo",
+		Psn:      "",
+		Github:   "romoo",
+		Btc:      "1NKcbDqhCrK7WXTww6ovrma4AB5h36JJPQ",
+		Location: "Beijing, China",
+		Tagline:  "Aha",
+		Bio:      "",
+		Avatar: v2ex.Avatar{
+			Avatar_mini:   "//cdn.v2ex.com/avatar/202c/b962/123_mini.png?m=1335117969",
+			Avatar_normal: "//cdn.v2ex.com/avatar/202c/b962/123_normal.png?m=1335117969",
+			Avatar_large:  "//cdn.v2ex.com/avatar/202c/b962/123_large.png?m=1335117969",
+		},
+		Created: 1272264436,
+	}
+
+	if member_target != member {
+		t.Error("TestMemberByID failed: not match")
+		return
+	}
+}
+
+func TestMemberByUsername(t *testing.T) {
+	member, err := v2ex.MemberByUsername("ochapman")
+	if err != nil {
+		t.Errorf("TestMemberByUsername failed: %s\n", err)
+		return
+	}
+
+	member_target := v2ex.Member{
+		Status:   "found",
+		ID:       59852,
+		URL:      "http://www.v2ex.com/member/ochapman",
+		Username: "ochapman",
+		Website:  "",
+		Twitter:  "",
+		Psn:      "",
+		Github:   "",
+		Btc:      "",
+		Location: "",
+		Tagline:  "",
+		Bio:      "",
+		Avatar: v2ex.Avatar{
+			Avatar_mini:   "https://secure.gravatar.com/avatar/ddfc45c85ffa86cc0afff074b57df297?s=24&d=https%3A%2F%2Fcdn.v2ex.com%2Fstatic%2Fimg%2Favatar_mini.png",
+			Avatar_normal: "https://secure.gravatar.com/avatar/ddfc45c85ffa86cc0afff074b57df297?s=48&d=https%3A%2F%2Fcdn.v2ex.com%2Fstatic%2Fimg%2Favatar_normal.png",
+			Avatar_large:  "https://secure.gravatar.com/avatar/ddfc45c85ffa86cc0afff074b57df297?s=73&d=https%3A%2F%2Fcdn.v2ex.com%2Fstatic%2Fimg%2Favatar_large.png",
+		},
+		Created: 1396860133,
+	}
+
+	if member != member_target {
+		t.Error("TestMemberByUsername failed, not match\n")
+		return
+	}
+}

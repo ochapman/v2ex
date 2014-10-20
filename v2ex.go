@@ -10,8 +10,13 @@ package v2ex
 
 import (
 	"encoding/json"
+	"errors"
 	"net/http"
 	"strconv"
+)
+
+var (
+	ErrInvalidUsername = errors.New("v2ex: invalid username")
 )
 
 func get(url string, v interface{}) (err error) {
@@ -91,10 +96,35 @@ type Avatar struct {
 }
 
 type Member struct {
+	Status   string `json:status`
 	ID       uint32 `json:id`
+	URL      string `json:url`
 	Username string `json:username`
+	Website  string `json:website`
+	Twitter  string `json:twitter`
+	Psn      string `json:psn`
+	Github   string `json:github`
+	Btc      string `json:btc`
+	Location string `json:location`
 	Tagline  string `json:tagline`
+	Bio      string `json:bio`
 	Avatar
+	Created int64 `json:created`
+}
+
+func MemberByID(id uint32) (member Member, err error) {
+	url := "http://www.v2ex.com/api/members/show.json?id=" + strconv.Itoa(int(id))
+	err = get(url, &member)
+	return
+}
+
+func MemberByUsername(name string) (member Member, err error) {
+	if name == "" {
+		return Member{}, ErrInvalidUsername
+	}
+	url := "http://www.v2ex.com/api/members/show.json?username=" + name
+	err = get(url, &member)
+	return
 }
 
 type Topic struct {
