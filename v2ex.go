@@ -49,7 +49,7 @@ func Info() (info info, err error) {
 	return
 }
 
-type node struct {
+type Node struct {
 	ID                uint32 `json:id`
 	Name              string `json:name`
 	URL               string `json:url`
@@ -64,22 +64,57 @@ type node struct {
 	Avatar_large      string `json:avatar_large`
 }
 
-func NodeByID(id uint32) (node node, err error) {
+func NodeByID(id uint32) (node Node, err error) {
 	url := "http://www.v2ex.com/api/nodes/show.json?id=" + strconv.Itoa(int(id))
 	err = get(url, &node)
 	return
 }
 
-func NodeByName(name string) (node node, err error) {
+func NodeByName(name string) (node Node, err error) {
 	url := "http://www.v2ex.com/api/nodes/show.json?name=" + name
 	err = get(url, &node)
 	return
 }
 
-type nodes []node
+type nodes []Node
 
 func Nodes() (nodes nodes, err error) {
 	url := "http://www.v2ex.com/api/nodes/all.json"
 	err = get(url, &nodes)
+	return
+}
+
+type Avatar struct {
+	Avatar_mini   string `json:avatar_mini`
+	Avatar_normal string `json:avatar_normal`
+	Avatar_large  string `json:avatar_large`
+}
+
+type Member struct {
+	ID       uint32 `json:id`
+	Username string `json:username`
+	Tagline  string `json:tagline`
+	Avatar
+}
+
+type Topic struct {
+	ID               uint32 `json:id`
+	Title            string `json:title`
+	URL              string `json:url`
+	Content          string `json:content`
+	Content_rendered string `json:content_rendered`
+	Replies          uint32 `json:replies`
+	Member           Member `json:member`
+	Node             Node   `json:node`
+	Created          uint64 `json:created`
+	Last_modified    uint64 `json:last_modified`
+	Last_touched     uint64 `json:last_touched`
+}
+
+type Topics []Topic
+
+func Latest() (topics Topics, err error) {
+	url := "http://www.v2ex.com/api/topics/latest.json"
+	err = get(url, &topics)
 	return
 }

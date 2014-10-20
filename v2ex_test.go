@@ -70,3 +70,14 @@ func TestNodes(t *testing.T) {
 		t.Logf("%#v\n", node)
 	}
 }
+
+func TestLatest(t *testing.T) {
+	topics, err := v2ex.Latest()
+	if err != nil {
+		t.Errorf("TestLatest failed: %s\n", err)
+		return
+	}
+	for _, topic := range topics {
+		t.Logf("%#v\n", topic)
+	}
+}
