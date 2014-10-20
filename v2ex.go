@@ -1,11 +1,13 @@
 /*
 * File Name:	v2ex.go
-* Description:
+* Description:  www.v2ex.com API
 * Author:	Chapman Ou <ochapman.cn@gmail.com>
 * Created:	2014-10-19
  */
 
+// https://www.v2ex.com/p/7v9TEc53
 // http://www.v2ex.com/t/85402
+
 package v2ex
 
 import (
