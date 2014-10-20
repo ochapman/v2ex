@@ -12,7 +12,7 @@ import (
 )
 
 func TestStats(t *testing.T) {
-	stats, err := v2ex.Stats()
+	stats, err := v2ex.GetStats()
 	if err != nil {
 		t.Errorf("TestStats failed: %s\n", err)
 		return
@@ -21,7 +21,7 @@ func TestStats(t *testing.T) {
 }
 
 func TestInfo(t *testing.T) {
-	info, err := v2ex.Info()
+	info, err := v2ex.GetInfo()
 	if err != nil {
 		t.Errorf("TestInfo failed: %s\n", err)
 		return
@@ -61,7 +61,7 @@ func TestNodeByName(t *testing.T) {
 }
 
 func TestNodes(t *testing.T) {
-	nodes, err := v2ex.Nodes()
+	nodes, err := v2ex.GetNodes()
 	if err != nil {
 		t.Errorf("TestNodes failed: %s\n", err)
 		return
@@ -117,14 +117,16 @@ func TestTopicByID(t *testing.T) {
 			},
 		},
 		Node: v2ex.Node{
-			ID:            51,
-			Name:          "nosql",
-			Title:         "NoSQL",
-			URL:           "http://www.v2ex.com/go/nosql",
-			Topics:        13,
-			Avatar_mini:   "/static/img/node_mini.png",
-			Avatar_normal: "/static/img/node_normal.png",
-			Avatar_large:  "/static/img/node_large.png",
+			ID:     51,
+			Name:   "nosql",
+			Title:  "NoSQL",
+			URL:    "http://www.v2ex.com/go/nosql",
+			Topics: 13,
+			Avatar: v2ex.Avatar{
+				Avatar_mini:   "/static/img/node_mini.png",
+				Avatar_normal: "/static/img/node_normal.png",
+				Avatar_large:  "/static/img/node_large.png",
+			},
 		},
 		Created:       1272356978,
 		Last_modified: 1335108284,

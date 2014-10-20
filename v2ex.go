@@ -32,65 +32,72 @@ func get(url string, v interface{}) (err error) {
 	return
 }
 
-type stats struct {
-	Topic_max  uint32 `json:topic_max`
-	Member_max uint32 `json:topic_max`
+type Stats struct {
+	Topic_max  uint32 `json:topic_max` //当前社区话题数量
+	Member_max uint32 `json:topic_max` //当前社区用户数量
 }
 
-func Stats() (stats stats, err error) {
+//获取社区统计信息
+func GetStats() (stats Stats, err error) {
 	url := "http://www.v2ex.com/api/site/stats.json"
 	err = get(url, &stats)
 	return
 }
 
-type info struct {
-	Title       string `json:title`
-	Slogan      string `json:slogan`
-	Description string `json:description`
-	Domain      string `json:domain`
+type Info struct {
+	Title       string `json:title`       //当前社区站名
+	Slogan      string `json:slogan`      //当前社区口号
+	Description string `json:description` //当前社区描述
+	Domain      string `json:domain`      //社区网址
 }
 
-func Info() (info info, err error) {
+//获取社区介绍
+func GetInfo() (info Info, err error) {
 	url := "http://www.v2ex.com/api/site/info.json"
 	err = get(url, &info)
 	return
 }
 
 type Node struct {
-	ID                uint32 `json:id`
-	Name              string `json:name`
-	URL               string `json:url`
-	Title             string `json:title`
-	Title_alternative string `json:title_alternative`
-	Topics            uint32 `json:topics`
-	Header            string `json:header`
-	Footer            string `json:footer`
-	Created           int64  `json:created`
-	Avatar_mini       string `json:avatar_mini`
-	Avatar_normal     string `json:avatar_normal`
-	Avatar_large      string `json:avatar_large`
+	ID                uint32 `json:id`                //节点 ID
+	Name              string `json:name`              //节点缩略名
+	URL               string `json:url`               //节点地址
+	Title             string `json:title`             //节点名称
+	Title_alternative string `json:title_alternative` //备选节点名称
+	Topics            uint32 `json:topics`            //节点主题总数
+	Header            string `json:header`            //节点头部信息
+	Footer            string `json:footer`            //节点脚部信息
+	Created           int64  `json:created`           //节点创建时间
+	Avatar
 }
 
+//通过节点ID获取单个节点信息
 func NodeByID(id uint32) (node Node, err error) {
 	url := "http://www.v2ex.com/api/nodes/show.json?id=" + strconv.Itoa(int(id))
 	err = get(url, &node)
 	return
 }
 
+//通过节点名字获取单个节点信息
 func NodeByName(name string) (node Node, err error) {
+	if name == "" {
+		return node, ErrInvalidUsername
+	}
 	url := "http://www.v2ex.com/api/nodes/show.json?name=" + name
 	err = get(url, &node)
 	return
 }
 
-type nodes []Node
+type Nodes []Node
 
-func Nodes() (nodes nodes, err error) {
+//获取全部节点
+func GetNodes() (nodes Nodes, err error) {
 	url := "http://www.v2ex.com/api/nodes/all.json"
 	err = get(url, &nodes)
 	return
 }
 
+//
 type Avatar struct {
 	Avatar_mini   string `json:avatar_mini`
 	Avatar_normal string `json:avatar_normal`
@@ -122,7 +129,7 @@ func MemberByID(id uint32) (member Member, err error) {
 
 func MemberByUsername(name string) (member Member, err error) {
 	if name == "" {
-		return Member{}, ErrInvalidUsername
+		return member, ErrInvalidUsername
 	}
 	url := "http://www.v2ex.com/api/members/show.json?username=" + name
 	err = get(url, &member)
@@ -166,9 +173,10 @@ func TopicByID(id uint32) (topic Topic, err error) {
 	return
 }
 
+//回复
 type Reply struct {
-	ID               uint32 `json:id` //Reply ID
-	Thanks           uint32 `json:thanks`
+	ID               uint32 `json:id`     //Reply ID
+	Thanks           uint32 `json:thanks` //感谢数量
 	Content          string `json:content`
 	Content_rendered string `json:content_rendered`
 	Member           Member `json:member`
