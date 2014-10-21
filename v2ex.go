@@ -19,6 +19,7 @@ import (
 
 var (
 	ErrInvalidUsername = errors.New("v2ex: invalid username")
+	ErrInvalidNodename = errors.New("v2ex: invalid nodename")
 )
 
 func get(url string, v interface{}) (err error) {
@@ -183,6 +184,17 @@ func TopicsByUsername(name string) (topics Topics, err error) {
 		return
 	}
 	url := "http://www.v2ex.com/api/topics/show.json?username=" + name
+	err = get(url, &topics)
+	return
+}
+
+//获取节点下所有主题
+func TopicsByNodename(name string) (topics Topics, err error) {
+	if name == "" {
+		err = ErrInvalidNodename
+		return
+	}
+	url := "http://www.v2ex.com/api/topics/show.json?node_name=" + name
 	err = get(url, &topics)
 	return
 }

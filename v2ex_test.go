@@ -149,6 +149,17 @@ func TestTopicsByUsername(t *testing.T) {
 	}
 }
 
+func TestTopicsByNodename(t *testing.T) {
+	topics, err := v2ex.TopicsByNodename("go")
+	if err != nil {
+		t.Error("TestTopicsByNodeName failed: %s\n", err)
+		return
+	}
+	for _, topic := range topics {
+		t.Logf("%#v\n", topic)
+	}
+}
+
 func TestRepliesByTopicID(t *testing.T) {
 	replies, err := v2ex.RepliesByTopicID(123)
 	if err != nil {
