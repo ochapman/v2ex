@@ -167,7 +167,7 @@ func TestTopicsByNodeID(t *testing.T) {
 		return
 	}
 	for _, topic := range topics {
-		t.Logf("%#v\n", topis)
+		t.Logf("%#v\n", topic)
 	}
 }
 

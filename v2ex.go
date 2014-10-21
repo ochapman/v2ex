@@ -22,6 +22,8 @@ var (
 	ErrInvalidNodename = errors.New("v2ex: invalid nodename")
 )
 
+const v2exAPI = "https://www.v2ex.com/api"
+
 func get(url string, v interface{}) (err error) {
 	resp, err := http.Get(url)
 	if err != nil {
@@ -40,7 +42,7 @@ type Stats struct {
 
 //获取社区统计信息
 func GetStats() (stats Stats, err error) {
-	url := "http://www.v2ex.com/api/site/stats.json"
+	url := v2exAPI + "/site/stats.json"
 	err = get(url, &stats)
 	return
 }
@@ -54,7 +56,7 @@ type Info struct {
 
 //获取社区介绍
 func GetInfo() (info Info, err error) {
-	url := "http://www.v2ex.com/api/site/info.json"
+	url := v2exAPI + "/site/info.json"
 	err = get(url, &info)
 	return
 }
@@ -74,7 +76,7 @@ type Node struct {
 
 //通过节点ID获取单个节点信息
 func NodeByID(id uint32) (node Node, err error) {
-	url := "http://www.v2ex.com/api/nodes/show.json?id=" + strconv.Itoa(int(id))
+	url := v2exAPI + "/nodes/show.json?id=" + strconv.Itoa(int(id))
 	err = get(url, &node)
 	return
 }
@@ -84,7 +86,7 @@ func NodeByName(name string) (node Node, err error) {
 	if name == "" {
 		return node, ErrInvalidUsername
 	}
-	url := "http://www.v2ex.com/api/nodes/show.json?name=" + name
+	url := v2exAPI + "/nodes/show.json?name=" + name
 	err = get(url, &node)
 	return
 }
@@ -93,7 +95,7 @@ type Nodes []Node
 
 //获取全部节点
 func GetNodes() (nodes Nodes, err error) {
-	url := "http://www.v2ex.com/api/nodes/all.json"
+	url := v2exAPI + "/nodes/all.json"
 	err = get(url, &nodes)
 	return
 }
@@ -125,7 +127,7 @@ type Member struct {
 
 //通过用户的ID获取
 func MemberByID(id uint32) (member Member, err error) {
-	url := "http://www.v2ex.com/api/members/show.json?id=" + strconv.Itoa(int(id))
+	url := v2exAPI + "/members/show.json?id=" + strconv.Itoa(int(id))
 	err = get(url, &member)
 	return
 }
@@ -135,7 +137,7 @@ func MemberByUsername(name string) (member Member, err error) {
 	if name == "" {
 		return member, ErrInvalidUsername
 	}
-	url := "http://www.v2ex.com/api/members/show.json?username=" + name
+	url := v2exAPI + "/members/show.json?username=" + name
 	err = get(url, &member)
 	return
 }
@@ -157,7 +159,7 @@ type Topic struct {
 type Topics []Topic
 
 func Latest() (topics Topics, err error) {
-	url := "http://www.v2ex.com/api/topics/latest.json"
+	url := v2exAPI + "/topics/latest.json"
 	err = get(url, &topics)
 	return
 }
@@ -172,7 +174,7 @@ func Hot() (topics Topics, err error) {
 //通过id获取对应主题
 func TopicByID(id uint32) (topic Topic, err error) {
 	var topics Topics
-	url := "http://www.v2ex.com/api/topics/show.json?id=" + strconv.Itoa(int(id))
+	url := v2exAPI + "/topics/show.json?id=" + strconv.Itoa(int(id))
 	err = get(url, &topics)
 	topic = topics[0]
 	return
@@ -184,7 +186,7 @@ func TopicsByUsername(name string) (topics Topics, err error) {
 		err = ErrInvalidUsername
 		return
 	}
-	url := "http://www.v2ex.com/api/topics/show.json?username=" + name
+	url := v2exAPI + "/topics/show.json?username=" + name
 	err = get(url, &topics)
 	return
 }
@@ -195,14 +197,14 @@ func TopicsByNodename(name string) (topics Topics, err error) {
 		err = ErrInvalidNodename
 		return
 	}
-	url := "http://www.v2ex.com/api/topics/show.json?node_name=" + name
+	url := v2exAPI + "/topics/show.json?node_name=" + name
 	err = get(url, &topics)
 	return
 }
 
 //获取节点ID下所有主题
 func TopicsByNodeID(nodeid uint32) (topics Topics, err error) {
-	url := "http://www.v2ex.com/api/topics/show.json?node_id=" + strconv.Itoa(nodeid)
+	url := v2exAPI + "/topics/show.json?node_id=" + strconv.Itoa(int(nodeid))
 	err = get(url, &topics)
 	return
 }
@@ -222,7 +224,7 @@ type Replies []Reply
 
 // id: topic ID
 func RepliesByTopicID(id uint32) (replies Replies, err error) {
-	url := "http://www.v2ex.com/api/replies/show.json?topic_id=" + strconv.Itoa(int(id))
+	url := v2exAPI + "/replies/show.json?topic_id=" + strconv.Itoa(int(id))
 	err = get(url, &replies)
 	return
 }
