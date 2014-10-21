@@ -200,6 +200,13 @@ func TopicsByNodename(name string) (topics Topics, err error) {
 	return
 }
 
+//获取节点ID下所有主题
+func TopicsByNodeID(nodeid uint32) (topics Topics, err error) {
+	url := "http://www.v2ex.com/api/topics/show.json?node_id=" + strconv.Itoa(nodeid)
+	err = get(url, &topics)
+	return
+}
+
 //回复
 type Reply struct {
 	ID               uint32 `json:id`     //Reply ID
