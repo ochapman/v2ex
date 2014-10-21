@@ -176,6 +176,17 @@ func TopicByID(id uint32) (topic Topic, err error) {
 	return
 }
 
+//获取指定用户的所有主题
+func TopicsByUsername(name string) (topics Topics, err error) {
+	if name == "" {
+		err = ErrInvalidUsername
+		return
+	}
+	url := "http://www.v2ex.com/api/topics/show.json?username=" + name
+	err = get(url, &topics)
+	return
+}
+
 //回复
 type Reply struct {
 	ID               uint32 `json:id`     //Reply ID
