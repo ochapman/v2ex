@@ -104,6 +104,7 @@ type Avatar struct {
 	Avatar_large  string `json:avatar_large`
 }
 
+//用户的自我介绍，及其登记的社交网络信息
 type Member struct {
 	Status   string `json:status`
 	ID       uint32 `json:id`
@@ -121,12 +122,14 @@ type Member struct {
 	Created int64 `json:created`
 }
 
+//通过用户的ID获取
 func MemberByID(id uint32) (member Member, err error) {
 	url := "http://www.v2ex.com/api/members/show.json?id=" + strconv.Itoa(int(id))
 	err = get(url, &member)
 	return
 }
 
+//通过用户的名字获取
 func MemberByUsername(name string) (member Member, err error) {
 	if name == "" {
 		return member, ErrInvalidUsername
