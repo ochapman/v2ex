@@ -169,6 +169,7 @@ func Hot() (topics Topics, err error) {
 	return
 }
 
+//通过id获取对应主题
 func TopicByID(id uint32) (topic Topic, err error) {
 	var topics Topics
 	url := "http://www.v2ex.com/api/topics/show.json?id=" + strconv.Itoa(int(id))
