@@ -14,26 +14,26 @@ import (
 func TestStats(t *testing.T) {
 	stats, err := v2ex.GetStats()
 	if err != nil {
-		t.Errorf("TestStats failed: %s\n", err)
+		t.Errorf("TestGetStats failed: %s\n", err)
 		return
 	}
 	t.Logf("topic_max: %d, member_max: %d\n", stats.Topic_max, stats.Member_max)
 }
 
-func TestInfo(t *testing.T) {
+func TestGetInfo(t *testing.T) {
 	info, err := v2ex.GetInfo()
 	if err != nil {
-		t.Errorf("TestInfo failed: %s\n", err)
+		t.Errorf("TestGetInfo failed: %s\n", err)
 		return
 	}
 	t.Logf("title: %s\nslogan: %s\ndescription: %s\ndomain: %s",
 		info.Title, info.Slogan, info.Description, info.Domain)
 }
 
-func TestNodeByID(t *testing.T) {
-	node, err := v2ex.NodeByID(334)
+func TestGetNodeByID(t *testing.T) {
+	node, err := v2ex.GetNodeByID(334)
 	if err != nil {
-		t.Errorf("TestInfo failed: %s\n", err)
+		t.Errorf("TestGetInfo failed: %s\n", err)
 		return
 	}
 	t.Logf("id: %d\nname: %s\nurl: %s\ntitle: %s\ntitle_alternative: %s"+
@@ -45,10 +45,10 @@ func TestNodeByID(t *testing.T) {
 
 }
 
-func TestNodeByName(t *testing.T) {
-	node, err := v2ex.NodeByName("linux")
+func TestGetNodeByName(t *testing.T) {
+	node, err := v2ex.GetNodeByName("linux")
 	if err != nil {
-		t.Errorf("TestInfo failed: %s\n", err)
+		t.Errorf("TestGetInfo failed: %s\n", err)
 		return
 	}
 	t.Logf("id: %d\nname: %s\nurl: %s\ntitle: %s\ntitle_alternative: %s"+
@@ -63,7 +63,7 @@ func TestNodeByName(t *testing.T) {
 func TestNodes(t *testing.T) {
 	nodes, err := v2ex.GetNodes()
 	if err != nil {
-		t.Errorf("TestNodes failed: %s\n", err)
+		t.Errorf("TestGetNodes failed: %s\n", err)
 		return
 	}
 	for _, node := range nodes {
@@ -71,10 +71,10 @@ func TestNodes(t *testing.T) {
 	}
 }
 
-func TestLatest(t *testing.T) {
-	topics, err := v2ex.Latest()
+func TestGetLatest(t *testing.T) {
+	topics, err := v2ex.GetLatest()
 	if err != nil {
-		t.Errorf("TestLatest failed: %s\n", err)
+		t.Errorf("TestGetLatest failed: %s\n", err)
 		return
 	}
 	for _, topic := range topics {
@@ -82,10 +82,10 @@ func TestLatest(t *testing.T) {
 	}
 }
 
-func TestHot(t *testing.T) {
-	topics, err := v2ex.Hot()
+func TestGetHot(t *testing.T) {
+	topics, err := v2ex.GetHot()
 	if err != nil {
-		t.Errorf("TestHot failed: %s\n", err)
+		t.Errorf("TestGetHot failed: %s\n", err)
 		return
 	}
 	for _, topic := range topics {
@@ -93,10 +93,10 @@ func TestHot(t *testing.T) {
 	}
 }
 
-func TestTopicByID(t *testing.T) {
-	topic, err := v2ex.TopicByID(123)
+func TestGetTopicByID(t *testing.T) {
+	topic, err := v2ex.GetTopicByID(123)
 	if err != nil {
-		t.Errorf("TestTopicByID failed: %s\n", err)
+		t.Errorf("TestGetTopicByID failed: %s\n", err)
 		return
 	}
 	topic_target := v2ex.Topic{
@@ -133,26 +133,15 @@ func TestTopicByID(t *testing.T) {
 		Last_touched:  1314771414,
 	}
 	if topic_target != topic {
-		t.Error("TestTopicByID failed: unmatch\n")
+		t.Error("TestGetTopicByID failed: unmatch\n")
 		return
 	}
 }
 
-func TestTopicsByUsername(t *testing.T) {
-	topics, err := v2ex.TopicsByUsername("ochapman")
+func TestGetTopicsByUsername(t *testing.T) {
+	topics, err := v2ex.GetTopicsByUsername("ochapman")
 	if err != nil {
-		t.Error("TestTopicsByUsername failed: %s\n", err)
-		return
-	}
-	for _, topic := range topics {
-		t.Logf("%#v\n", topic)
-	}
-}
-
-func TestTopicsByNodename(t *testing.T) {
-	topics, err := v2ex.TopicsByNodename("go")
-	if err != nil {
-		t.Error("TestTopicsByNodeName failed: %s\n", err)
+		t.Error("TestGetTopicsByUsername failed: %s\n", err)
 		return
 	}
 	for _, topic := range topics {
@@ -160,10 +149,10 @@ func TestTopicsByNodename(t *testing.T) {
 	}
 }
 
-func TestTopicsByNodeID(t *testing.T) {
-	topics, err := v2ex.TopicsByNodeID(375)
+func TestGetTopicsByNodename(t *testing.T) {
+	topics, err := v2ex.GetTopicsByNodename("go")
 	if err != nil {
-		t.Error("TestTopicsByNodeID failed: %s\n", err)
+		t.Error("TestGetTopicsByNodeName failed: %s\n", err)
 		return
 	}
 	for _, topic := range topics {
@@ -171,10 +160,21 @@ func TestTopicsByNodeID(t *testing.T) {
 	}
 }
 
-func TestRepliesByTopicID(t *testing.T) {
-	replies, err := v2ex.RepliesByTopicID(123)
+func TestGetTopicsByNodeID(t *testing.T) {
+	topics, err := v2ex.GetTopicsByNodeID(375)
 	if err != nil {
-		t.Error("TestRepliesByTopicID failed: %s\n", err)
+		t.Error("TestGetTopicsByNodeID failed: %s\n", err)
+		return
+	}
+	for _, topic := range topics {
+		t.Logf("%#v\n", topic)
+	}
+}
+
+func TestGetRepliesByTopicID(t *testing.T) {
+	replies, err := v2ex.GetRepliesByTopicID(123)
+	if err != nil {
+		t.Error("TestGetRepliesByTopicID failed: %s\n", err)
 		return
 	}
 
@@ -238,22 +238,22 @@ func TestRepliesByTopicID(t *testing.T) {
 	}
 
 	if len(replies) != len(replies_target) {
-		t.Error("TestRepliesByTopicID failed: len is not equal")
+		t.Error("TestGetRepliesByTopicID failed: len is not equal")
 		return
 	}
 
 	for i := 0; i < len(replies); i++ {
 		if replies[i] != replies_target[i] {
-			t.Error("TestRepliesByTopicID failed: unmatch\n")
+			t.Error("TestGetRepliesByTopicID failed: unmatch\n")
 			return
 		}
 	}
 }
 
-func TestMemberByID(t *testing.T) {
-	member, err := v2ex.MemberByID(123)
+func TestGetMemberByID(t *testing.T) {
+	member, err := v2ex.GetMemberByID(123)
 	if err != nil {
-		t.Errorf("TestMemberByID failed: %s\n", err)
+		t.Errorf("TestGetMemberByID failed: %s\n", err)
 		return
 	}
 
@@ -279,15 +279,15 @@ func TestMemberByID(t *testing.T) {
 	}
 
 	if member_target != member {
-		t.Error("TestMemberByID failed: not match")
+		t.Error("TestGetMemberByID failed: not match")
 		return
 	}
 }
 
-func TestMemberByUsername(t *testing.T) {
-	member, err := v2ex.MemberByUsername("ochapman")
+func TestGetMemberByUsername(t *testing.T) {
+	member, err := v2ex.GetMemberByUsername("ochapman")
 	if err != nil {
-		t.Errorf("TestMemberByUsername failed: %s\n", err)
+		t.Errorf("TestGetMemberByUsername failed: %s\n", err)
 		return
 	}
 
@@ -313,7 +313,7 @@ func TestMemberByUsername(t *testing.T) {
 	}
 
 	if member != member_target {
-		t.Error("TestMemberByUsername failed, not match\n")
+		t.Error("TestGetMemberByUsername failed, not match\n")
 		return
 	}
 }

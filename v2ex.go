@@ -75,14 +75,14 @@ type Node struct {
 }
 
 //通过节点ID获取单个节点信息
-func NodeByID(id uint32) (node Node, err error) {
+func GetNodeByID(id uint32) (node Node, err error) {
 	url := v2exAPI + "/nodes/show.json?id=" + strconv.Itoa(int(id))
 	err = get(url, &node)
 	return
 }
 
 //通过节点名字获取单个节点信息
-func NodeByName(name string) (node Node, err error) {
+func GetNodeByName(name string) (node Node, err error) {
 	if name == "" {
 		return node, ErrInvalidUsername
 	}
@@ -126,14 +126,14 @@ type Member struct {
 }
 
 //通过用户的ID获取
-func MemberByID(id uint32) (member Member, err error) {
+func GetMemberByID(id uint32) (member Member, err error) {
 	url := v2exAPI + "/members/show.json?id=" + strconv.Itoa(int(id))
 	err = get(url, &member)
 	return
 }
 
 //通过用户的名字获取
-func MemberByUsername(name string) (member Member, err error) {
+func GetMemberByUsername(name string) (member Member, err error) {
 	if name == "" {
 		return member, ErrInvalidUsername
 	}
@@ -158,21 +158,21 @@ type Topic struct {
 
 type Topics []Topic
 
-func Latest() (topics Topics, err error) {
+func GetLatest() (topics Topics, err error) {
 	url := v2exAPI + "/topics/latest.json"
 	err = get(url, &topics)
 	return
 }
 
 //相当于首页右侧的 10 大每天的内容
-func Hot() (topics Topics, err error) {
+func GetHot() (topics Topics, err error) {
 	url := "https://www.v2ex.com/api/topics/hot.json"
 	err = get(url, &topics)
 	return
 }
 
 //通过id获取对应主题
-func TopicByID(id uint32) (topic Topic, err error) {
+func GetTopicByID(id uint32) (topic Topic, err error) {
 	var topics Topics
 	url := v2exAPI + "/topics/show.json?id=" + strconv.Itoa(int(id))
 	err = get(url, &topics)
@@ -181,7 +181,7 @@ func TopicByID(id uint32) (topic Topic, err error) {
 }
 
 //获取指定用户的所有主题
-func TopicsByUsername(name string) (topics Topics, err error) {
+func GetTopicsByUsername(name string) (topics Topics, err error) {
 	if name == "" {
 		err = ErrInvalidUsername
 		return
@@ -192,7 +192,7 @@ func TopicsByUsername(name string) (topics Topics, err error) {
 }
 
 //获取节点下所有主题
-func TopicsByNodename(name string) (topics Topics, err error) {
+func GetTopicsByNodename(name string) (topics Topics, err error) {
 	if name == "" {
 		err = ErrInvalidNodename
 		return
@@ -203,7 +203,7 @@ func TopicsByNodename(name string) (topics Topics, err error) {
 }
 
 //获取节点ID下所有主题
-func TopicsByNodeID(nodeid uint32) (topics Topics, err error) {
+func GetTopicsByNodeID(nodeid uint32) (topics Topics, err error) {
 	url := v2exAPI + "/topics/show.json?node_id=" + strconv.Itoa(int(nodeid))
 	err = get(url, &topics)
 	return
@@ -223,7 +223,7 @@ type Reply struct {
 type Replies []Reply
 
 // id: topic ID
-func RepliesByTopicID(id uint32) (replies Replies, err error) {
+func GetRepliesByTopicID(id uint32) (replies Replies, err error) {
 	url := v2exAPI + "/replies/show.json?topic_id=" + strconv.Itoa(int(id))
 	err = get(url, &replies)
 	return
